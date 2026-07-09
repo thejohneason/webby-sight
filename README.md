@@ -1,2 +1,3 @@
 # webby-sight
-Static website testing
+
+Playing around with github Pages for git practice.
