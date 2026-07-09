@@ -1,15 +1,575 @@
-<!DOCTYPE html >
-<html >
-    <head >
-        <title >Page Title</title >
-    </head >
-    
-    <body >
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Learn HTML: An Interactive Introduction</title>
+<style>
+  :root {
+    --bg: #0f1117;
+    --panel: #171a23;
+    --panel2: #1d2130;
+    --text: #e6e8ef;
+    --muted: #9aa3b5;
+    --accent: #5eb0ff;
+    --accent2: #7ee8b8;
+    --border: #2a2f40;
+    --code-bg: #10131c;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    line-height: 1.6;
+  }
+  header {
+    padding: 48px 24px 32px;
+    text-align: center;
+    border-bottom: 1px solid var(--border);
+    background: linear-gradient(180deg, var(--panel), var(--bg));
+  }
+  header h1 {
+    margin: 0 0 8px;
+    font-size: 2.2rem;
+  }
+  header p {
+    color: var(--muted);
+    margin: 0;
+  }
+  nav {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 8px;
+    padding: 16px 24px;
+    border-bottom: 1px solid var(--border);
+    position: sticky;
+    top: 0;
+    background: rgba(15, 17, 23, 0.95);
+    backdrop-filter: blur(6px);
+    z-index: 10;
+  }
+  nav a {
+    color: var(--muted);
+    text-decoration: none;
+    font-size: 0.85rem;
+    padding: 6px 12px;
+    border-radius: 20px;
+    border: 1px solid var(--border);
+    transition: all 0.15s ease;
+  }
+  nav a:hover {
+    color: var(--accent);
+    border-color: var(--accent);
+  }
+  main {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 40px 24px 100px;
+  }
+  section {
+    margin-bottom: 64px;
+    scroll-margin-top: 70px;
+  }
+  section h2 {
+    font-size: 1.6rem;
+    border-left: 4px solid var(--accent);
+    padding-left: 12px;
+    margin-bottom: 16px;
+  }
+  .lesson-number {
+    color: var(--accent);
+    font-weight: 700;
+    font-size: 0.85rem;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+  }
+  p { color: var(--text); }
+  code {
+    background: var(--code-bg);
+    padding: 2px 6px;
+    border-radius: 4px;
+    font-family: "SF Mono", Menlo, Consolas, monospace;
+    font-size: 0.9em;
+    color: var(--accent2);
+  }
+  pre {
+    background: var(--code-bg);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 16px;
+    overflow-x: auto;
+    font-family: "SF Mono", Menlo, Consolas, monospace;
+    font-size: 0.88rem;
+    line-height: 1.5;
+  }
+  pre code {
+    background: none;
+    padding: 0;
+    color: #d7dbe6;
+  }
+  .tag { color: #ff8fb3; }
+  .attr { color: #ffd479; }
+  .val { color: #7ee8b8; }
+  .cmt { color: #6b7280; }
 
-        <h1 > My First Heading</h1 >
-        <p > My first paragraph.</p >
-        <p> Second!</p>
-        <p> And this is number 3</p>
+  .try-box {
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    overflow: hidden;
+    margin: 20px 0;
+    background: var(--panel);
+  }
+  .try-box .label {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 8px 14px;
+    background: var(--panel2);
+    font-size: 0.75rem;
+    color: var(--muted);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+  .try-box .label button {
+    background: none;
+    border: 1px solid var(--border);
+    color: var(--muted);
+    border-radius: 6px;
+    padding: 3px 8px;
+    font-size: 0.7rem;
+    cursor: pointer;
+  }
+  .try-box .label button:hover {
+    color: var(--accent);
+    border-color: var(--accent);
+  }
+  .editor-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+  }
+  @media (max-width: 640px) {
+    .editor-row { grid-template-columns: 1fr; }
+  }
+  .editor-row textarea {
+    width: 100%;
+    height: 100%;
+    min-height: 160px;
+    background: var(--code-bg);
+    color: #d7dbe6;
+    border: none;
+    border-right: 1px solid var(--border);
+    padding: 14px;
+    font-family: "SF Mono", Menlo, Consolas, monospace;
+    font-size: 0.85rem;
+    resize: vertical;
+    outline: none;
+  }
+  .editor-row iframe {
+    width: 100%;
+    min-height: 160px;
+    border: none;
+    background: #fff;
+  }
+  .note {
+    border-left: 3px solid var(--accent2);
+    background: rgba(126, 232, 184, 0.08);
+    padding: 10px 16px;
+    border-radius: 0 8px 8px 0;
+    font-size: 0.92rem;
+    margin: 16px 0;
+  }
+  .warn {
+    border-left: 3px solid #ffb15e;
+    background: rgba(255, 177, 94, 0.08);
+    padding: 10px 16px;
+    border-radius: 0 8px 8px 0;
+    font-size: 0.92rem;
+    margin: 16px 0;
+  }
+  .quiz {
+    background: var(--panel);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 18px;
+    margin: 20px 0;
+  }
+  .quiz p.q { font-weight: 600; margin-top: 0; }
+  .quiz .options { display: flex; flex-direction: column; gap: 8px; }
+  .quiz label {
+    display: block;
+    padding: 8px 12px;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 0.92rem;
+  }
+  .quiz label:hover { border-color: var(--accent); }
+  .quiz .feedback {
+    margin-top: 10px;
+    font-size: 0.88rem;
+    display: none;
+  }
+  .quiz .feedback.show { display: block; }
+  .quiz .feedback.correct { color: var(--accent2); }
+  .quiz .feedback.incorrect { color: #ff8fb3; }
+  .checklist {
+    list-style: none;
+    padding: 0;
+  }
+  .checklist li {
+    padding: 8px 0;
+    border-bottom: 1px solid var(--border);
+  }
+  .checklist input { margin-right: 10px; }
+  footer {
+    text-align: center;
+    padding: 40px 24px;
+    color: var(--muted);
+    border-top: 1px solid var(--border);
+    font-size: 0.85rem;
+  }
+  a.top-link {
+    color: var(--accent);
+  }
+</style>
+</head>
+<body>
 
-    </body >
-</html > 
+<header>
+  <h1>Learn HTML</h1>
+  <p>A hands-on introduction to building web pages &mdash; edit the examples right on this page.</p>
+</header>
+
+<nav>
+  <a href="#intro">1. What is HTML</a>
+  <a href="#structure">2. Page structure</a>
+  <a href="#text">3. Text</a>
+  <a href="#links-images">4. Links &amp; images</a>
+  <a href="#lists">5. Lists</a>
+  <a href="#attributes">6. Attributes</a>
+  <a href="#divspan">7. div &amp; span</a>
+  <a href="#tables">8. Tables</a>
+  <a href="#forms">9. Forms</a>
+  <a href="#semantic">10. Semantic HTML</a>
+  <a href="#next">11. Next steps</a>
+</nav>
+
+<main>
+
+  <section id="intro">
+    <div class="lesson-number">Lesson 1</div>
+    <h2>What is HTML?</h2>
+    <p>
+      HTML stands for <strong>HyperText Markup Language</strong>. It's not a programming language &mdash;
+      it's a <em>markup</em> language that describes the structure of a web page using <strong>elements</strong>.
+    </p>
+    <p>
+      An element usually has an opening tag, some content, and a closing tag:
+    </p>
+    <pre><code><span class="tag">&lt;p&gt;</span>This is a paragraph.<span class="tag">&lt;/p&gt;</span></code></pre>
+    <p>
+      The browser reads the tags and decides how to display the content. Tags describe <em>meaning</em>
+      (this is a paragraph, this is a heading, this is a link) and the browser handles the visual result.
+    </p>
+
+    <div class="try-box">
+      <div class="label">Try it &mdash; edit the left side, watch the right side update</div>
+      <div class="editor-row">
+        <textarea class="live-editor" data-target="preview-intro">&lt;h3&gt;Hello, world!&lt;/h3&gt;
+&lt;p&gt;This is my first paragraph. Try changing this text.&lt;/p&gt;</textarea>
+        <iframe id="preview-intro" title="preview"></iframe>
+      </div>
+    </div>
+  </section>
+
+  <section id="structure">
+    <div class="lesson-number">Lesson 2</div>
+    <h2>The basic page structure</h2>
+    <p>Every HTML page follows the same skeleton:</p>
+    <pre><code><span class="tag">&lt;!DOCTYPE html&gt;</span>
+<span class="tag">&lt;html&gt;</span>
+  <span class="tag">&lt;head&gt;</span>
+    <span class="tag">&lt;title&gt;</span>My Page Title<span class="tag">&lt;/title&gt;</span>
+  <span class="tag">&lt;/head&gt;</span>
+  <span class="tag">&lt;body&gt;</span>
+    <span class="tag">&lt;h1&gt;</span>Welcome!<span class="tag">&lt;/h1&gt;</span>
+    <span class="tag">&lt;p&gt;</span>This is the content people see.<span class="tag">&lt;/p&gt;</span>
+  <span class="tag">&lt;/body&gt;</span>
+<span class="tag">&lt;/html&gt;</span></code></pre>
+    <ul>
+      <li><code>&lt;!DOCTYPE html&gt;</code> tells the browser this is a modern HTML document.</li>
+      <li><code>&lt;html&gt;</code> wraps the entire page.</li>
+      <li><code>&lt;head&gt;</code> holds information <em>about</em> the page (title, styles, metadata) &mdash; nothing in here is visible on the page itself.</li>
+      <li><code>&lt;body&gt;</code> holds everything the visitor actually sees.</li>
+    </ul>
+    <div class="note">
+      This tutorial page you're reading is itself one big HTML file, styled with CSS. View its source in your browser to see it in action.
+    </div>
+
+    <div class="quiz" data-answer="head">
+      <p class="q">Quick check: where would you put a page's title so it shows up in the browser tab?</p>
+      <div class="options">
+        <label><input type="radio" name="q1" value="body"> Inside <code>&lt;body&gt;</code></label>
+        <label><input type="radio" name="q1" value="head"> Inside <code>&lt;head&gt;</code></label>
+        <label><input type="radio" name="q1" value="html"> Directly inside <code>&lt;html&gt;</code>, outside both</label>
+      </div>
+      <div class="feedback"></div>
+    </div>
+  </section>
+
+  <section id="text">
+    <div class="lesson-number">Lesson 3</div>
+    <h2>Text elements</h2>
+    <p>Headings come in six sizes, <code>&lt;h1&gt;</code> (biggest/most important) through <code>&lt;h6&gt;</code> (smallest).</p>
+    <pre><code><span class="tag">&lt;h1&gt;</span>Main title<span class="tag">&lt;/h1&gt;</span>
+<span class="tag">&lt;h2&gt;</span>Section heading<span class="tag">&lt;/h2&gt;</span>
+<span class="tag">&lt;p&gt;</span>A normal paragraph of text. You can make words <span class="tag">&lt;strong&gt;</span>bold<span class="tag">&lt;/strong&gt;</span> or <span class="tag">&lt;em&gt;</span>italic<span class="tag">&lt;/em&gt;</span>.<span class="tag">&lt;/p&gt;</span>
+<span class="tag">&lt;br&gt;</span> <span class="cmt">&lt;!-- forces a line break --&gt;</span>
+<span class="tag">&lt;hr&gt;</span> <span class="cmt">&lt;!-- draws a horizontal line --&gt;</span></code></pre>
+    <p>Use headings to reflect real document structure (one <code>&lt;h1&gt;</code> per page, then <code>&lt;h2&gt;</code> for major sections, <code>&lt;h3&gt;</code> for subsections) rather than just picking whichever looks biggest.</p>
+
+    <div class="try-box">
+      <div class="label">Try it</div>
+      <div class="editor-row">
+        <textarea class="live-editor" data-target="preview-text">&lt;h2&gt;My Recipe Blog&lt;/h2&gt;
+&lt;p&gt;Today I made &lt;strong&gt;garlic bread&lt;/strong&gt;. It was &lt;em&gt;incredible&lt;/em&gt;.&lt;/p&gt;
+&lt;hr&gt;
+&lt;p&gt;Rating: 10/10&lt;/p&gt;</textarea>
+        <iframe id="preview-text" title="preview"></iframe>
+      </div>
+    </div>
+  </section>
+
+  <section id="links-images">
+    <div class="lesson-number">Lesson 4</div>
+    <h2>Links and images</h2>
+    <p>Links use <code>&lt;a&gt;</code> (anchor) with an <code>href</code> attribute pointing to a destination:</p>
+    <pre><code><span class="tag">&lt;a</span> <span class="attr">href</span>=<span class="val">"https://example.com"</span><span class="tag">&gt;</span>Visit Example<span class="tag">&lt;/a&gt;</span></code></pre>
+    <p>Images use <code>&lt;img&gt;</code>, which is self-closing (no separate closing tag) and requires <code>src</code> (the image location) and <code>alt</code> (a text description for accessibility and for when the image fails to load):</p>
+    <pre><code><span class="tag">&lt;img</span> <span class="attr">src</span>=<span class="val">"cat.jpg"</span> <span class="attr">alt</span>=<span class="val">"A sleeping orange cat"</span><span class="tag">&gt;</span></code></pre>
+    <div class="warn">
+      Since you're deploying to GitHub Pages, keep image paths relative (e.g. <code>images/cat.jpg</code>) and upload the images alongside your HTML file in the same repository.
+    </div>
+
+    <div class="try-box">
+      <div class="label">Try it</div>
+      <div class="editor-row">
+        <textarea class="live-editor" data-target="preview-links">&lt;p&gt;Check out &lt;a href="https://developer.mozilla.org"&gt;MDN Web Docs&lt;/a&gt; for a full HTML reference.&lt;/p&gt;
+&lt;img src="https://placehold.co/200x100" alt="placeholder graphic"&gt;</textarea>
+        <iframe id="preview-links" title="preview"></iframe>
+      </div>
+    </div>
+  </section>
+
+  <section id="lists">
+    <div class="lesson-number">Lesson 5</div>
+    <h2>Lists</h2>
+    <p>Unordered (bulleted) lists use <code>&lt;ul&gt;</code>, ordered (numbered) lists use <code>&lt;ol&gt;</code>. Each item is an <code>&lt;li&gt;</code>:</p>
+    <pre><code><span class="tag">&lt;ul&gt;</span>
+  <span class="tag">&lt;li&gt;</span>Milk<span class="tag">&lt;/li&gt;</span>
+  <span class="tag">&lt;li&gt;</span>Eggs<span class="tag">&lt;/li&gt;</span>
+<span class="tag">&lt;/ul&gt;</span>
+
+<span class="tag">&lt;ol&gt;</span>
+  <span class="tag">&lt;li&gt;</span>Preheat the oven<span class="tag">&lt;/li&gt;</span>
+  <span class="tag">&lt;li&gt;</span>Mix ingredients<span class="tag">&lt;/li&gt;</span>
+<span class="tag">&lt;/ol&gt;</span></code></pre>
+
+    <div class="try-box">
+      <div class="label">Try it</div>
+      <div class="editor-row">
+        <textarea class="live-editor" data-target="preview-lists">&lt;h3&gt;Packing list&lt;/h3&gt;
+&lt;ul&gt;
+  &lt;li&gt;Passport&lt;/li&gt;
+  &lt;li&gt;Toothbrush&lt;/li&gt;
+  &lt;li&gt;Phone charger&lt;/li&gt;
+&lt;/ul&gt;</textarea>
+        <iframe id="preview-lists" title="preview"></iframe>
+      </div>
+    </div>
+  </section>
+
+  <section id="attributes">
+    <div class="lesson-number">Lesson 6</div>
+    <h2>Attributes, class, and id</h2>
+    <p>
+      Attributes live inside the opening tag and provide extra information, like <code>href</code> on links
+      or <code>src</code>/<code>alt</code> on images. Two attributes you'll use constantly are <code>class</code>
+      and <code>id</code>:
+    </p>
+    <pre><code><span class="tag">&lt;p</span> <span class="attr">id</span>=<span class="val">"intro"</span><span class="tag">&gt;</span>Only one element on the page should have this exact id.<span class="tag">&lt;/p&gt;</span>
+<span class="tag">&lt;p</span> <span class="attr">class</span>=<span class="val">"highlight"</span><span class="tag">&gt;</span>Many elements can share the same class.<span class="tag">&lt;/p&gt;</span></code></pre>
+    <p>
+      Neither does anything visual by itself &mdash; they're hooks that CSS (for styling) and JavaScript (for
+      behavior) use to target specific elements. Think of <code>class</code> as a label you can reuse on
+      many elements, and <code>id</code> as a unique name for exactly one element.
+    </p>
+
+    <div class="quiz" data-answer="class">
+      <p class="q">You want to style five different paragraphs the same way. Which attribute should you use?</p>
+      <div class="options">
+        <label><input type="radio" name="q2" value="id"> <code>id</code></label>
+        <label><input type="radio" name="q2" value="class"> <code>class</code></label>
+        <label><input type="radio" name="q2" value="href"> <code>href</code></label>
+      </div>
+      <div class="feedback"></div>
+    </div>
+  </section>
+
+  <section id="divspan">
+    <div class="lesson-number">Lesson 7</div>
+    <h2>div and span: generic containers</h2>
+    <p>
+      <code>&lt;div&gt;</code> is a generic block-level container (it takes up its own line) used to group
+      chunks of content for styling or layout. <code>&lt;span&gt;</code> is the inline version, used to wrap
+      a small piece of text inside a sentence.
+    </p>
+    <pre><code><span class="tag">&lt;div</span> <span class="attr">class</span>=<span class="val">"card"</span><span class="tag">&gt;</span>
+  <span class="tag">&lt;h3&gt;</span>Card title<span class="tag">&lt;/h3&gt;</span>
+  <span class="tag">&lt;p&gt;</span>Some <span class="tag">&lt;span</span> <span class="attr">class</span>=<span class="val">"price"</span><span class="tag">&gt;</span>$9.99<span class="tag">&lt;/span&gt;</span> item.<span class="tag">&lt;/p&gt;</span>
+<span class="tag">&lt;/div&gt;</span></code></pre>
+    <p>They carry no meaning on their own &mdash; they exist purely to group things, which is exactly why the next lesson matters.</p>
+  </section>
+
+  <section id="tables">
+    <div class="lesson-number">Lesson 8</div>
+    <h2>Tables</h2>
+    <p>Tables are built from <code>&lt;table&gt;</code>, rows (<code>&lt;tr&gt;</code>), header cells (<code>&lt;th&gt;</code>), and data cells (<code>&lt;td&gt;</code>):</p>
+    <pre><code><span class="tag">&lt;table&gt;</span>
+  <span class="tag">&lt;tr&gt;</span>
+    <span class="tag">&lt;th&gt;</span>Name<span class="tag">&lt;/th&gt;</span>
+    <span class="tag">&lt;th&gt;</span>Age<span class="tag">&lt;/th&gt;</span>
+  <span class="tag">&lt;/tr&gt;</span>
+  <span class="tag">&lt;tr&gt;</span>
+    <span class="tag">&lt;td&gt;</span>Ada<span class="tag">&lt;/td&gt;</span>
+    <span class="tag">&lt;td&gt;</span>28<span class="tag">&lt;/td&gt;</span>
+  <span class="tag">&lt;/tr&gt;</span>
+<span class="tag">&lt;/table&gt;</span></code></pre>
+
+    <div class="try-box">
+      <div class="label">Try it</div>
+      <div class="editor-row">
+        <textarea class="live-editor" data-target="preview-tables">&lt;table border="1" cellpadding="6"&gt;
+  &lt;tr&gt;&lt;th&gt;Planet&lt;/th&gt;&lt;th&gt;Moons&lt;/th&gt;&lt;/tr&gt;
+  &lt;tr&gt;&lt;td&gt;Earth&lt;/td&gt;&lt;td&gt;1&lt;/td&gt;&lt;/tr&gt;
+  &lt;tr&gt;&lt;td&gt;Jupiter&lt;/td&gt;&lt;td&gt;95&lt;/td&gt;&lt;/tr&gt;
+&lt;/table&gt;</textarea>
+        <iframe id="preview-tables" title="preview"></iframe>
+      </div>
+    </div>
+  </section>
+
+  <section id="forms">
+    <div class="lesson-number">Lesson 9</div>
+    <h2>Forms</h2>
+    <p>Forms collect input from visitors. A basic text form:</p>
+    <pre><code><span class="tag">&lt;form&gt;</span>
+  <span class="tag">&lt;label</span> <span class="attr">for</span>=<span class="val">"name"</span><span class="tag">&gt;</span>Your name:<span class="tag">&lt;/label&gt;</span>
+  <span class="tag">&lt;input</span> <span class="attr">type</span>=<span class="val">"text"</span> <span class="attr">id</span>=<span class="val">"name"</span> <span class="attr">name</span>=<span class="val">"name"</span><span class="tag">&gt;</span>
+  <span class="tag">&lt;button</span> <span class="attr">type</span>=<span class="val">"submit"</span><span class="tag">&gt;</span>Send<span class="tag">&lt;/button&gt;</span>
+<span class="tag">&lt;/form&gt;</span></code></pre>
+    <div class="note">
+      On a static GitHub Pages site, a plain <code>&lt;form&gt;</code> has nowhere to submit to (there's no server behind the page). To actually collect submissions you'd need a third-party form service &mdash; that's a topic for later, but the HTML itself works the same way either way.
+    </div>
+
+    <div class="try-box">
+      <div class="label">Try it</div>
+      <div class="editor-row">
+        <textarea class="live-editor" data-target="preview-forms">&lt;form&gt;
+  &lt;label for="fav"&gt;Favorite color:&lt;/label&gt;&lt;br&gt;
+  &lt;input type="text" id="fav" name="fav"&gt;&lt;br&gt;&lt;br&gt;
+  &lt;input type="checkbox" id="agree"&gt;
+  &lt;label for="agree"&gt;I like HTML&lt;/label&gt;&lt;br&gt;&lt;br&gt;
+  &lt;button type="submit"&gt;Submit&lt;/button&gt;
+&lt;/form&gt;</textarea>
+        <iframe id="preview-forms" title="preview"></iframe>
+      </div>
+    </div>
+  </section>
+
+  <section id="semantic">
+    <div class="lesson-number">Lesson 10</div>
+    <h2>Semantic HTML</h2>
+    <p>
+      Modern HTML includes tags that describe the <em>role</em> of a section, not just its box shape.
+      Using them instead of endless <code>&lt;div&gt;</code>s helps browsers, screen readers, and search
+      engines understand your page:
+    </p>
+    <pre><code><span class="tag">&lt;header&gt;</span>Site title / logo<span class="tag">&lt;/header&gt;</span>
+<span class="tag">&lt;nav&gt;</span>Navigation links<span class="tag">&lt;/nav&gt;</span>
+<span class="tag">&lt;main&gt;</span>
+  <span class="tag">&lt;article&gt;</span>A self-contained piece of content, like a blog post<span class="tag">&lt;/article&gt;</span>
+  <span class="tag">&lt;section&gt;</span>A thematic grouping within the page<span class="tag">&lt;/section&gt;</span>
+<span class="tag">&lt;/main&gt;</span>
+<span class="tag">&lt;footer&gt;</span>Copyright, links, etc.<span class="tag">&lt;/footer&gt;</span></code></pre>
+    <p>This very page uses <code>&lt;header&gt;</code>, <code>&lt;nav&gt;</code>, <code>&lt;main&gt;</code>, <code>&lt;section&gt;</code>, and <code>&lt;footer&gt;</code> &mdash; view its source to see it in context.</p>
+  </section>
+
+  <section id="next">
+    <div class="lesson-number">Lesson 11</div>
+    <h2>Next steps: deploying to GitHub Pages</h2>
+    <p>Once you're happy with a page, GitHub Pages will host it for free straight from a repository:</p>
+    <ol>
+      <li>Create a GitHub repository (public).</li>
+      <li>Add your HTML file to it and name your homepage <code>index.html</code>.</li>
+      <li>Go to the repository's <strong>Settings &rarr; Pages</strong> and set the source to your main branch.</li>
+      <li>GitHub gives you a URL like <code>https://yourusername.github.io/your-repo/</code>.</li>
+    </ol>
+    <div class="note">
+      Since the page is public, avoid putting real names, emails, addresses, or anything private directly in the HTML or in comments &mdash; anyone can view your source.
+    </div>
+    <p>From here, natural next topics are CSS (styling) and JavaScript (interactivity) &mdash; the same three-part stack this tutorial itself is built on.</p>
+    <p>A quick self-check before you move on:</p>
+    <ul class="checklist">
+      <li><label><input type="checkbox"> I can write a valid <code>&lt;!DOCTYPE html&gt;</code> page skeleton from memory</label></li>
+      <li><label><input type="checkbox"> I know the difference between <code>class</code> and <code>id</code></label></li>
+      <li><label><input type="checkbox"> I can build a list, a table, and a simple form</label></li>
+      <li><label><input type="checkbox"> I understand why semantic tags are preferred over plain <code>&lt;div&gt;</code>s</label></li>
+    </ul>
+  </section>
+
+</main>
+
+<footer>
+  <p>Built for learning &mdash; feel free to copy, remix, and deploy this page. <a class="top-link" href="#intro">Back to top &uarr;</a></p>
+</footer>
+
+<script>
+  // Live "try it" editors: render textarea HTML into the adjacent iframe.
+  function renderEditor(textarea) {
+    var targetId = textarea.getAttribute('data-target');
+    var iframe = document.getElementById(targetId);
+    if (iframe) {
+      iframe.srcdoc = textarea.value;
+    }
+  }
+
+  document.querySelectorAll('.live-editor').forEach(function (ta) {
+    renderEditor(ta); // initial render
+    ta.addEventListener('input', function () { renderEditor(ta); });
+  });
+
+  // Simple quiz feedback
+  document.querySelectorAll('.quiz').forEach(function (quiz) {
+    var answer = quiz.getAttribute('data-answer');
+    var feedback = quiz.querySelector('.feedback');
+    quiz.querySelectorAll('input[type="radio"]').forEach(function (input) {
+      input.addEventListener('change', function () {
+        feedback.classList.add('show');
+        if (input.value === answer) {
+          feedback.textContent = 'Correct!';
+          feedback.className = 'feedback show correct';
+        } else {
+          feedback.textContent = 'Not quite — try again.';
+          feedback.className = 'feedback show incorrect';
+        }
+      });
+    });
+  });
+</script>
+
+</body>
+</html>
